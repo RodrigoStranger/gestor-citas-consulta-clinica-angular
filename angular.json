@@ -56,10 +56,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "gestor-citas-consulta-clinica:build:production"
+              "buildTarget": "gestor-citas-consulta-clinica-angular:build:production"
             },
             "development": {
-              "buildTarget": "gestor-citas-consulta-clinica:build:development"
+              "buildTarget": "gestor-citas-consulta-clinica-angular:build:development"
             }
           },
           "defaultConfiguration": "development"
