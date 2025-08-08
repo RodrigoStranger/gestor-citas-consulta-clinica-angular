@@ -15,6 +15,12 @@ export class MedicosComponent implements OnInit {
   medicos: Medico[] = [];
   medicosFiltrados: Medico[] = [];
   activo: "habilitados" | "deshabilitados" = "habilitados";
+  textoBoton: string = 'Ver deshabilitados';
+  alternarDisponibles(): void {
+    this.activo = this.activo === 'habilitados' ? 'deshabilitados' : 'habilitados';
+    this.textoBoton = this.activo === 'habilitados' ? 'Ver deshabilitados' : 'Ver habilitados';
+    this.obtenerMedicos();
+  }
 
   constructor(private medicoService: MedicoService) { }
 

@@ -1,9 +1,8 @@
-
-.btn-buscar {
+.btn.btn-buscar {
   background-color: #0824a4 !important;
   color: white !important;
-  border: none;
-  font-weight: bold;
+  border: none !important;
+  font-weight: bold !important;
 }
 
 .form-control:focus {

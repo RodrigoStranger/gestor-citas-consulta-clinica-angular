@@ -3,13 +3,18 @@
   <div class="col-sm-2"></div>
   <div class="col-sm-8 mt-5">
     <div class="row mb-2">
-          <div class="col-12 d-flex justify-content-end">
+          <div class="col-12 d-flex justify-content-end align-items-center gap-2" style="height: 40px;">
             <app-search [placeholder]="'Busca un médico'" (buscar)="filtrarMedicos($event)"></app-search>
           </div>
     </div>
     <div class="card">
       <div class="card-body">
-        <h5 class="card-title text-center">Lista de Médicos Disponibles</h5>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="card-title m-0">
+            {{ activo === 'habilitados' ? 'Lista de Médicos Habilitados' : 'Lista de Médicos Deshabilitados' }}
+          </h5>
+          <button class="btn btn-buscar" type="button" (click)="alternarDisponibles()">{{ textoBoton }}</button>
+        </div>
         <table class="cabecera-clinica table table-bordered">
           <thead>
             <tr>

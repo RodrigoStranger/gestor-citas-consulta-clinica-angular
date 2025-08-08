@@ -1,3 +1,9 @@
+.btn.btn-buscar {
+  background-color: #0824a4 !important;
+  color: white !important;
+  border: none !important;
+  font-weight: bold !important;
+}
 .cabecera-clinica th {
   background-color: #0824a4;
   color: white;
