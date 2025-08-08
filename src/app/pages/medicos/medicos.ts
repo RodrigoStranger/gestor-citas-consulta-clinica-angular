@@ -2,10 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Medico } from '../../models/medico/medico.model';
 import { Medico as MedicoService } from '../../services/medico/medico';
 import { CommonModule } from '@angular/common';
+import { Nabvar } from '../../components/nabvar/nabvar';
+import { Search } from '../../components/search/search';
 
 @Component({
   selector: 'app-medicos',
-  imports: [CommonModule],
+  imports: [CommonModule, Nabvar, Search],
   templateUrl: './medicos.html',
   styleUrls: ['./medicos.css']
 })
