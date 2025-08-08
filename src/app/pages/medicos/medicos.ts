@@ -6,7 +6,8 @@ import { Nabvar } from '../../components/nabvar/nabvar';
 import { Search } from '../../components/search/search';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
-import ModelError from '../../models/error/error.model';
+import ModelError, { FieldError } from '../../models/error/error.model';
+import { formatFechaNacimiento } from '../../utils/formatFechaNacimiento';
 
 @Component({
   selector: 'app-medicos',
@@ -15,6 +16,7 @@ import ModelError from '../../models/error/error.model';
   styleUrls: ['./medicos.css']
 })
 export class MedicosComponent implements OnInit {
+
   medicos: Medico[] = [];
   medicosFiltrados: Medico[] = [];
   activo: "habilitados" | "deshabilitados" = "habilitados";
@@ -43,11 +45,7 @@ export class MedicosComponent implements OnInit {
     if (!this.formMedico.valid) return false;
     const medicoData = { ...this.formMedico.value };
     if (medicoData.fechaNacimiento) {
-      const fecha = new Date(medicoData.fechaNacimiento);
-      const yyyy = fecha.getFullYear();
-      const mm = String(fecha.getMonth() + 1).padStart(2, '0');
-      const dd = String(fecha.getDate()).padStart(2, '0');
-      medicoData.fechaNacimiento = `${yyyy}-${mm}-${dd}`;
+      medicoData.fechaNacimiento = formatFechaNacimiento(medicoData.fechaNacimiento);
     }
     this.medicoService.crearMedico(medicoData).subscribe({
       next: (response) => {
@@ -65,11 +63,11 @@ export class MedicosComponent implements OnInit {
         this.formMedico.reset();
       },
       error: (e: any) => {
-        const errorResponse = e.error;
+        const errorResponse = e.error as ModelError;
         let text = errorResponse.message;
         if (Array.isArray(errorResponse.errors) && errorResponse.errors.length > 0) {
           text += '\n';
-          text += errorResponse.errors.map((err: any) => `• ${err.message}`).join('\n');
+          text += errorResponse.errors.map((err: FieldError) => `• ${err.message}`).join('\n');
         }
         Swal.fire({
           icon: 'warning',
