@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Medico as MedicoModel } from '../../models/medico/medico.model';
-
+import { MedicoActualizacion } from '../../models/medico/medico.actualizacion.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -33,8 +33,8 @@ export class Medico {
     return this.http.get(`${this.url}/${id_medico}/horarios`);
   }
 
-  actualizarEspecialidadMedico(id_medico: number, especialidad: string): Observable<any> {
-    return this.http.put(`${this.url}/${id_medico}/especialidad`, { especialidad });
+  actualizarMedico(id_medico:number, medico:MedicoActualizacion): Observable<any> {
+    return this.http.put(`${this.url}/${id_medico}`, medico);
   }
 
   cambiarEstadoMedico(id_medico: number, nuevoEstado: 1 | 0): Observable<any> {

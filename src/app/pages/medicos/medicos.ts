@@ -16,6 +16,7 @@ import { formatFechaNacimiento } from '../../utils/formatFechaNacimiento';
   styleUrls: ['./medicos.css']
 })
 export class MedicosComponent implements OnInit {
+  showClave = false;
 
   medicos: Medico[] = [];
   medicosFiltrados: Medico[] = [];

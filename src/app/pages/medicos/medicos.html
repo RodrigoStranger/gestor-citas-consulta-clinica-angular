@@ -21,7 +21,7 @@
       <div class="modal-content">
         <div class="modal-header crear-medico">
           <h5 class="modal-title" id="staticBackdropLabel">Crear Médico</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="formMedico.reset()"></button>
         </div>
         <form [formGroup]="formMedico" (ngSubmit)="guardarMedico()">
 
@@ -32,7 +32,12 @@
             </div>
             <div class="mb-3">
               <label for="clave" class="form-label">Clave</label>
-              <input type="text" class="form-control" id="clave" formControlName="clave" required>
+              <div class="input-group">
+                <input [type]="showClave ? 'text' : 'password'" class="form-control" id="clave" formControlName="clave" required>
+                <button type="button" class="btn btn-outline-secondary" (click)="showClave = !showClave" tabindex="-1">
+                  <i class="fa" [ngClass]="showClave ? 'fa-eye-slash' : 'fa-eye'"></i>
+                </button>
+              </div>
             </div>
             <div class="mb-3">
               <label for="correo" class="form-label">Correo</label>
