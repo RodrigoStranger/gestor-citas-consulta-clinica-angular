@@ -9,6 +9,11 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./search.css']
 })
 export class Search {
+  onInputChange(valor: string) {
+    if (!valor.trim()) {
+      this.buscar.emit('');
+    }
+  }
   @Input() placeholder: string = 'Buscar';
   @Output() buscar = new EventEmitter<string>();
   valor: string = '';

@@ -1,6 +1,6 @@
 <div class="d-flex mb-2">
     <form class="d-flex" (submit)="onBuscar(); $event.preventDefault()">
-      <input class="form-control me-2" type="search" [(ngModel)]="valor" [placeholder]="placeholder" aria-label="Search" name="busqueda" (input)="buscar.emit(valor)">
+      <input class="form-control me-2" type="search" [(ngModel)]="valor" [placeholder]="placeholder" aria-label="Search" name="busqueda" (ngModelChange)="onInputChange($event)">
       <button class="btn btn-buscar" type="submit" [disabled]="!valor.trim()">Buscar</button>
   </form>
 </div>
