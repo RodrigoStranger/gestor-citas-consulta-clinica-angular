@@ -1,3 +1,13 @@
+.modal-header.crear-medico .btn-close {
+  filter: invert(1);
+}
+.modal-header.crear-medico {
+  background-color: #0824a4;
+}
+.modal-header.crear-medico .modal-title {
+  color: white;
+  font-weight: bold;
+}
 .btn-success {
   font-weight: bold !important;
   box-shadow: 0 0.5rem 1rem rgba(8,36,164,0.25) !important;

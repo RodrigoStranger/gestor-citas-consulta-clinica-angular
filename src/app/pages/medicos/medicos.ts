@@ -4,10 +4,11 @@ import { Medico as MedicoService } from '../../services/medico/medico';
 import { CommonModule } from '@angular/common';
 import { Nabvar } from '../../components/nabvar/nabvar';
 import { Search } from '../../components/search/search';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-medicos',
-  imports: [CommonModule, Nabvar, Search],
+  imports: [CommonModule, Nabvar, Search, ReactiveFormsModule],
   templateUrl: './medicos.html',
   styleUrls: ['./medicos.css']
 })
@@ -16,13 +17,29 @@ export class MedicosComponent implements OnInit {
   medicosFiltrados: Medico[] = [];
   activo: "habilitados" | "deshabilitados" = "habilitados";
   textoBoton: string = 'Ver deshabilitados';
+  formMedico: FormGroup;
   alternarDisponibles(): void {
     this.activo = this.activo === 'habilitados' ? 'deshabilitados' : 'habilitados';
     this.textoBoton = this.activo === 'habilitados' ? 'Ver deshabilitados' : 'Ver habilitados';
     this.obtenerMedicos();
   }
 
-  constructor(private medicoService: MedicoService) { }
+  constructor(private medicoService: MedicoService, private fb: FormBuilder) {
+    this.formMedico = this.fb.group({
+      dni: ['', Validators.required],
+      correo: ['', [Validators.required, Validators.email]],
+      telefono: ['', Validators.required],
+      nombre: ['', Validators.required],
+      apellidos: ['', Validators.required],
+      fechaNacimiento: ['', Validators.required],
+      especialidad: ['', Validators.required]
+    });
+  }
+
+  guardarMedico() {
+    if (!this.formMedico.valid) return;
+    console.log('Datos del médico:', this.formMedico.value);
+  }
 
   ngOnInit(): void {
     this.obtenerMedicos();

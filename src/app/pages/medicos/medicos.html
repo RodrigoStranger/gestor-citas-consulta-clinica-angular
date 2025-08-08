@@ -14,7 +14,63 @@
             {{ activo === 'habilitados' ? 'Lista de Médicos Habilitados' : 'Lista de Médicos Deshabilitados' }}
           </h5>
           <div class="d-flex gap-3">
-            <button class="btn btn-success" type="button" [disabled]="activo === 'deshabilitados'">Crear Médico</button>
+            <button class="btn btn-success" type="button" [disabled]="activo === 'deshabilitados'" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Crear Médico</button>
+<ng-container *ngIf="activo === 'habilitados'">
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header crear-medico">
+          <h5 class="modal-title" id="staticBackdropLabel">Crear Médico</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form [formGroup]="formMedico" (ngSubmit)="guardarMedico()">
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="dni" class="form-label">DNI</label>
+              <input type="text" class="form-control" id="dni" name="dni" required>
+              <input type="text" class="form-control" id="dni" formControlName="dni" required>
+            </div>
+            <div class="mb-3">
+              <label for="correo" class="form-label">Correo</label>
+              <input type="email" class="form-control" id="correo" name="correo" required>
+              <input type="email" class="form-control" id="correo" formControlName="correo" required>
+            </div>
+            <div class="mb-3">
+              <label for="telefono" class="form-label">Teléfono</label>
+              <input type="text" class="form-control" id="telefono" name="telefono" required>
+              <input type="text" class="form-control" id="telefono" formControlName="telefono" required>
+            </div>
+            <div class="mb-3">
+              <label for="nombre" class="form-label">Nombre</label>
+              <input type="text" class="form-control" id="nombre" name="nombre" required>
+              <input type="text" class="form-control" id="nombre" formControlName="nombre" required>
+            </div>
+            <div class="mb-3">
+              <label for="apellidos" class="form-label">Apellidos</label>
+              <input type="text" class="form-control" id="apellidos" name="apellidos" required>
+              <input type="text" class="form-control" id="apellidos" formControlName="apellidos" required>
+            </div>
+            <div class="mb-3">
+              <label for="fechaNacimiento" class="form-label">Fecha de Nacimiento</label>
+              <input type="date" class="form-control" id="fechaNacimiento" name="fechaNacimiento" required>
+              <input type="date" class="form-control" id="fechaNacimiento" formControlName="fechaNacimiento" required>
+            </div>
+            <div class="mb-3">
+              <label for="especialidad" class="form-label">Especialidad</label>
+              <input type="text" class="form-control" id="especialidad" name="especialidad" required>
+              <input type="text" class="form-control" id="especialidad" formControlName="especialidad" required>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-success">Crear Médico</button>
+            <button type="submit" class="btn btn-success" [disabled]="!formMedico.valid">Crear Médico</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</ng-container>
             <button class="btn btn-buscar" type="button" (click)="alternarDisponibles()">{{ textoBoton }}</button>
           </div>
         </div>
