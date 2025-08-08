@@ -60,7 +60,7 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="formMedico.reset()">Cancelar</button>
             <button type="submit" class="btn btn-success" [disabled]="!formMedico.valid">Crear Médico</button>
           </div>
         </form>
