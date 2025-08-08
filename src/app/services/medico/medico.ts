@@ -37,10 +37,13 @@ export class Medico {
     return this.http.put(`${this.url}/${id_medico}/especialidad`, { especialidad });
   }
 
-  cambiarEstadoMedico(id_medico: number, nuevoEstado: number ): Observable<any> {
+  cambiarEstadoMedico(id_medico: number, nuevoEstado: 1 | 0): Observable<any> {
     return this.http.put(`${this.url}/${id_medico}/estado/${nuevoEstado}`, {});
   }
 
+  asignarHorarioMedico(idMedico: number, idHorario: number): Observable<any> {
+    return this.http.post(`${this.url}/asignar-horario`, { idMedico, idHorario });
+  }
 
 
 
