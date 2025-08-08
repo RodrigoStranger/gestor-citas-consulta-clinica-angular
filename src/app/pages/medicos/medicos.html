@@ -3,10 +3,11 @@
   <div class="col-sm-2"></div>
   <div class="col-sm-8 mt-5">
     <div class="row mb-2">
-          <div class="col-12 d-flex justify-content-end align-items-center gap-2" style="height: 40px;">
-            <app-search [placeholder]="'Busca un médico'" (buscar)="filtrarMedicos($event)"></app-search>
-          </div>
+      <div class="col-12 d-flex justify-content-end align-items-center gap-2" style="height: 40px;">
+        <app-search [placeholder]="'Busca un médico'" (buscar)="filtrarMedicos($event)"></app-search>
+      </div>
     </div>
+
     <div class="card">
       <div class="card-body">
         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -15,97 +16,167 @@
           </h5>
           <div class="d-flex gap-3">
             <button class="btn btn-success" type="button" [disabled]="activo === 'deshabilitados'" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Crear Médico</button>
-<ng-container *ngIf="activo === 'habilitados'">
-  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header crear-medico">
-          <h5 class="modal-title" id="staticBackdropLabel">Crear Médico</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="formMedico.reset()"></button>
-        </div>
-        <form [formGroup]="formMedico" (ngSubmit)="guardarMedico()">
-
-          <div class="modal-body">
-            <div class="mb-3">
-              <label for="dni" class="form-label">DNI</label>
-              <input type="text" class="form-control" id="dni" formControlName="dni" required maxlength="8" pattern="\d{8}" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-            </div>
-            <div class="mb-3">
-              <label for="clave" class="form-label">Clave</label>
-              <div class="input-group">
-                <input [type]="showClave ? 'text' : 'password'" class="form-control" id="clave" formControlName="clave" required>
-                <button type="button" class="btn btn-outline-secondary" (click)="showClave = !showClave" tabindex="-1">
-                  <i class="fa" [ngClass]="showClave ? 'fa-eye-slash' : 'fa-eye'"></i>
-                </button>
-              </div>
-            </div>
-            <div class="mb-3">
-              <label for="correo" class="form-label">Correo</label>
-              <input type="email" class="form-control" id="correo" formControlName="correo" required>
-            </div>
-            <div class="mb-3">
-              <label for="telefono" class="form-label">Teléfono</label>
-              <input type="text" class="form-control" id="telefono" formControlName="telefono" required maxlength="9" pattern="\d{9}" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-            </div>
-            <div class="mb-3">
-              <label for="nombre" class="form-label">Nombre</label>
-              <input type="text" class="form-control" id="nombre" formControlName="nombre" required pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ ]+" oninput="this.value = this.value.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñ ]/g, '')">
-            </div>
-            <div class="mb-3">
-              <label for="apellidos" class="form-label">Apellidos</label>
-              <input type="text" class="form-control" id="apellidos" formControlName="apellidos" required pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ ]+" oninput="this.value = this.value.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñ ]/g, '')">
-            </div>
-            <div class="mb-3">
-              <label for="fechaNacimiento" class="form-label">Fecha de Nacimiento</label>
-              <input type="date" class="form-control" id="fechaNacimiento" formControlName="fechaNacimiento" required>
-            </div>
-            <div class="mb-3">
-              <label for="especialidad" class="form-label">Especialidad</label>
-              <input type="text" class="form-control" id="especialidad" formControlName="especialidad" required>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="formMedico.reset()">Cancelar</button>
-            <button type="submit" class="btn btn-success" [disabled]="!formMedico.valid">Crear Médico</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</ng-container>
             <button class="btn btn-buscar" type="button" (click)="alternarDisponibles()">{{ textoBoton }}</button>
           </div>
         </div>
-        <table class="cabecera-clinica table table-bordered">
-          <thead>
-            <tr>
-              <th class="border border-dark">Código</th>
-              <th class="border border-dark">Dni</th>
-              <th class="border border-dark">Correo</th>
-              <th class="border border-dark">Teléfono</th>
-              <th class="border border-dark">Nombre</th>
-              <th class="border border-dark">Apellidos</th>
-              <th class="border border-dark">Especialidad</th>
-              <th class="border border-dark">Fecha Nacimiento</th>
-              <th class="border border-dark">Rol</th>
-              <th class="border border-dark">Fecha Registro</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let medico of medicosFiltrados">
-              <td class="border border-dark">{{ medico.id_medico }}</td>
-              <td class="border border-dark">{{ medico.usuario.dni }}</td>
-              <td class="border border-dark">{{ medico.usuario.correo }}</td>
-              <td class="border border-dark">{{ medico.usuario.telefono }}</td>
-              <td class="border border-dark">{{ medico.usuario.nombre }}</td>
-              <td class="border border-dark">{{ medico.usuario.apellidos }}</td>
-              <td class="border border-dark">{{ medico.especialidad }}</td>
-              <td class="border border-dark">{{ medico.usuario.fechaNacimiento }}</td>
-              <td class="border border-dark">{{ medico.usuario.rolPorDefecto }}</td>
-              <td class="border border-dark">{{ medico.usuario.fechaRegistro }}</td>
-            </tr>
-          </tbody>
-        </table>
+
+        <!-- Modal para crear médico -->
+        <ng-container *ngIf="activo === 'habilitados'">
+          <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header crear-medico">
+                  <h5 class="modal-title" id="staticBackdropLabel">Crear Médico</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="formMedico.reset()"></button>
+                </div>
+                <form [formGroup]="formMedico" (ngSubmit)="guardarMedico()">
+                  <div class="modal-body">
+                    <div class="mb-3">
+                      <label for="dni" class="form-label">DNI</label>
+                      <input type="text" class="form-control" id="dni" formControlName="dni" required maxlength="8" pattern="\d{8}" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                    </div>
+                    <div class="mb-3">
+                      <label for="clave" class="form-label">Clave</label>
+                      <div class="input-group">
+                        <input [type]="showClave ? 'text' : 'password'" class="form-control" id="clave" formControlName="clave" required>
+                        <button type="button" class="btn btn-outline-secondary" (click)="showClave = !showClave" tabindex="-1">
+                          <i class="fa" [ngClass]="showClave ? 'fa-eye-slash' : 'fa-eye'"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="mb-3">
+                      <label for="correo" class="form-label">Correo</label>
+                      <input type="email" class="form-control" id="correo" formControlName="correo" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="telefono" class="form-label">Teléfono</label>
+                      <input type="text" class="form-control" id="telefono" formControlName="telefono" required maxlength="9" pattern="\d{9}" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                    </div>
+                    <div class="mb-3">
+                      <label for="nombre" class="form-label">Nombre</label>
+                      <input type="text" class="form-control" id="nombre" formControlName="nombre" required pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ ]+" oninput="this.value = this.value.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñ ]/g, '')">
+                    </div>
+                    <div class="mb-3">
+                      <label for="apellidos" class="form-label">Apellidos</label>
+                      <input type="text" class="form-control" id="apellidos" formControlName="apellidos" required pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ ]+" oninput="this.value = this.value.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñ ]/g, '')">
+                    </div>
+                    <div class="mb-3">
+                      <label for="fechaNacimiento" class="form-label">Fecha de Nacimiento</label>
+                      <input type="date" class="form-control" id="fechaNacimiento" formControlName="fechaNacimiento" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="especialidad" class="form-label">Especialidad</label>
+                      <input type="text" class="form-control" id="especialidad" formControlName="especialidad" required>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="formMedico.reset()">Cancelar</button>
+                    <button type="submit" class="btn btn-success" [disabled]="!formMedico.valid">Crear Médico</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <!-- Tabla para médicos habilitados -->
+        <ng-container *ngIf="activo === 'habilitados'">
+          <div class="table-responsive">
+            <table class="cabecera-clinica table table-bordered">
+              <thead>
+                <tr>
+                  <th class="border border-dark">Código</th>
+                  <th class="border border-dark">Dni</th>
+                  <th class="border border-dark">Correo</th>
+                  <th class="border border-dark">Teléfono</th>
+                  <th class="border border-dark">Nombre</th>
+                  <th class="border border-dark">Apellidos</th>
+                  <th class="border border-dark">Especialidad</th>
+                  <th class="border border-dark">Fecha Nacimiento</th>
+                  <th class="border border-dark">Rol</th>
+                  <th class="border border-dark">Fecha Registro</th>
+                  <th class="border border-dark text-center">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let medico of medicosFiltrados">
+                  <td class="border border-dark">{{ medico.id_medico }}</td>
+                  <td class="border border-dark">{{ medico.usuario.dni }}</td>
+                  <td class="border border-dark">{{ medico.usuario.correo }}</td>
+                  <td class="border border-dark">{{ medico.usuario.telefono }}</td>
+                  <td class="border border-dark">{{ medico.usuario.nombre }}</td>
+                  <td class="border border-dark">{{ medico.usuario.apellidos }}</td>
+                  <td class="border border-dark">{{ medico.especialidad }}</td>
+                  <td class="border border-dark">{{ medico.usuario.fechaNacimiento }}</td>
+                  <td class="border border-dark">{{ medico.usuario.rolPorDefecto }}</td>
+                  <td class="border border-dark">{{ medico.usuario.fechaRegistro }}</td>
+                  <td class="border border-dark text-center">
+                    <div class="d-inline-flex gap-2 justify-content-center align-items-center">
+                      <button class="btn btn-primary btn-sm btn-icon" title="Editar">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                          <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                          <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                        </svg>
+                      </button>
+                      <button class="btn btn-danger btn-sm btn-icon" title="Deshabilitar">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill-dash" viewBox="0 0 16 16">
+                          <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7M11 12h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1 0-1m0-7a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                          <path d="M2 13c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4"/>
+                        </svg>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </ng-container>
+
+        <!-- Tabla para médicos deshabilitados -->
+        <ng-container *ngIf="activo === 'deshabilitados'">
+          <div class="table-responsive">
+            <table class="cabecera-clinica table table-bordered">
+              <thead>
+                <tr>
+                  <th class="border border-dark">Código</th>
+                  <th class="border border-dark">Dni</th>
+                  <th class="border border-dark">Correo</th>
+                  <th class="border border-dark">Teléfono</th>
+                  <th class="border border-dark">Nombre</th>
+                  <th class="border border-dark">Apellidos</th>
+                  <th class="border border-dark">Especialidad</th>
+                  <th class="border border-dark">Fecha Nacimiento</th>
+                  <th class="border border-dark">Rol</th>
+                  <th class="border border-dark">Fecha Registro</th>
+                  <th class="border border-dark text-center">Acción</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let medico of medicosFiltrados">
+                  <td class="border border-dark">{{ medico.id_medico }}</td>
+                  <td class="border border-dark">{{ medico.usuario.dni }}</td>
+                  <td class="border border-dark">{{ medico.usuario.correo }}</td>
+                  <td class="border border-dark">{{ medico.usuario.telefono }}</td>
+                  <td class="border border-dark">{{ medico.usuario.nombre }}</td>
+                  <td class="border border-dark">{{ medico.usuario.apellidos }}</td>
+                  <td class="border border-dark">{{ medico.especialidad }}</td>
+                  <td class="border border-dark">{{ medico.usuario.fechaNacimiento }}</td>
+                  <td class="border border-dark">{{ medico.usuario.rolPorDefecto }}</td>
+                  <td class="border border-dark">{{ medico.usuario.fechaRegistro }}</td>
+                  <td class="border border-dark text-center">
+                    <button class="btn btn-success btn-sm btn-icon" title="Habilitar">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-check-fill" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M15.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L12.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
+                        <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+                      </svg>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </ng-container>
+
       </div>
     </div>
   </div>
