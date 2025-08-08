@@ -14,7 +14,7 @@
             {{ activo === 'habilitados' ? 'Lista de Médicos Habilitados' : 'Lista de Médicos Deshabilitados' }}
           </h5>
           <div class="d-flex gap-3">
-            <button class="btn btn-success" type="button">Crear Médico</button>
+            <button class="btn btn-success" type="button" [disabled]="activo === 'deshabilitados'">Crear Médico</button>
             <button class="btn btn-buscar" type="button" (click)="alternarDisponibles()">{{ textoBoton }}</button>
           </div>
         </div>
