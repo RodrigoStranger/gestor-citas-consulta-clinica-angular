@@ -44,8 +44,13 @@ export class MedicosComponent implements OnInit {
     if (!texto.trim()) {
       this.medicosFiltrados = this.medicos;
     } else {
+      const filtro = texto.toLowerCase();
       this.medicosFiltrados = this.medicos.filter(medico =>
-        medico.usuario.nombre.toLowerCase().includes(texto.toLowerCase())
+        medico.usuario.nombre.toLowerCase().includes(filtro) ||
+        medico.usuario.apellidos.toLowerCase().includes(filtro) ||
+        medico.usuario.dni.toLowerCase().includes(filtro) ||
+        medico.usuario.telefono.toLowerCase().includes(filtro) ||
+        medico.usuario.correo.toLowerCase().includes(filtro)
       );
     }
   }
