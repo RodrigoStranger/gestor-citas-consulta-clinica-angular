@@ -102,7 +102,6 @@ export class MedicosComponent implements OnInit {
       telefono: medico.usuario.telefono || '',
       especialidad: medico.especialidad || ''
     };
-    console.log('Valores originales antes de editar:', valoresOriginales);
     this.formActualizarMedico.setValue(valoresOriginales);
     const modal = document.getElementById('modalActualizarMedico');
     if (modal) {
@@ -113,7 +112,6 @@ export class MedicosComponent implements OnInit {
   actualizarMedicoSeleccionado() {
     if (!this.formActualizarMedico.valid || this.idMedicoParaActualizar == null) return;
     const medicoActualizado = { ...this.formActualizarMedico.value };
-    console.log('Actualizando médico:', medicoActualizado, 'ID:', this.idMedicoParaActualizar);
     this.medicoService.actualizarMedico(this.idMedicoParaActualizar, medicoActualizado).subscribe({
       next: (response) => {
         const modal = document.getElementById('modalActualizarMedico');
