@@ -65,6 +65,9 @@ export class MedicosComponent implements OnInit {
   activo: "habilitados" | "deshabilitados" = "habilitados";
   textoBoton: string = 'Ver deshabilitados';
   formMedico: FormGroup;
+  formActualizarMedico: FormGroup;
+  idMedicoParaActualizar: number | null = null;
+
   alternarDisponibles(): void {
     this.activo = this.activo === 'habilitados' ? 'deshabilitados' : 'habilitados';
     this.textoBoton = this.activo === 'habilitados' ? 'Ver deshabilitados' : 'Ver habilitados';
@@ -81,6 +84,65 @@ export class MedicosComponent implements OnInit {
       apellidos: ['', Validators.required],
       fechaNacimiento: ['', Validators.required],
       especialidad: ['', Validators.required]
+    });
+    this.formActualizarMedico = this.fb.group({
+      nombre: ['', Validators.required],
+      apellidos: ['', Validators.required],
+      correo: ['', [Validators.required, Validators.email]],
+      telefono: ['', Validators.required],
+      especialidad: ['', Validators.required]
+    });
+  }
+  abrirModalActualizar(medico: any) {
+    this.idMedicoParaActualizar = medico.id_medico;
+    const valoresOriginales = {
+      nombre: medico.usuario.nombre || '',
+      apellidos: medico.usuario.apellidos || '',
+      correo: medico.usuario.correo || '',
+      telefono: medico.usuario.telefono || '',
+      especialidad: medico.especialidad || ''
+    };
+    console.log('Valores originales antes de editar:', valoresOriginales);
+    this.formActualizarMedico.setValue(valoresOriginales);
+    const modal = document.getElementById('modalActualizarMedico');
+    if (modal) {
+      (window as any).bootstrap?.Modal.getOrCreateInstance(modal)?.show();
+    }
+  }
+
+  actualizarMedicoSeleccionado() {
+    if (!this.formActualizarMedico.valid || this.idMedicoParaActualizar == null) return;
+    const medicoActualizado = { ...this.formActualizarMedico.value };
+    console.log('Actualizando médico:', medicoActualizado, 'ID:', this.idMedicoParaActualizar);
+    this.medicoService.actualizarMedico(this.idMedicoParaActualizar, medicoActualizado).subscribe({
+      next: (response) => {
+        const modal = document.getElementById('modalActualizarMedico');
+        if (modal) {
+          (window as any).bootstrap?.Modal.getOrCreateInstance(modal)?.hide();
+        }
+        Swal.fire({
+          title: 'Éxito',
+          text: response?.message || 'Médico actualizado correctamente',
+          icon: 'success',
+          confirmButtonText: 'Aceptar'
+        });
+        this.obtenerMedicos();
+        this.idMedicoParaActualizar = null;
+        this.formActualizarMedico.reset();
+      },
+      error: (e: any) => {
+        const errorResponse = e.error as ModelError;
+        let text = errorResponse.message;
+        if (Array.isArray(errorResponse.errors) && errorResponse.errors.length > 0) {
+          text += '\n';
+          text += errorResponse.errors.map((err: FieldError) => `• ${err.message}`).join('\n');
+        }
+        Swal.fire({
+          icon: 'warning',
+          title: errorResponse.errorCode ? `${errorResponse.errorCode}` : 'Error',
+          text,
+        });
+      }
     });
   }
 

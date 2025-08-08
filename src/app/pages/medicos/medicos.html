@@ -7,7 +7,6 @@
         <app-search [placeholder]="'Busca un médico'" (buscar)="filtrarMedicos($event)"></app-search>
       </div>
     </div>
-
     <div class="card">
       <div class="card-body">
         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -19,8 +18,6 @@
             <button class="btn btn-buscar" type="button" (click)="alternarDisponibles()">{{ textoBoton }}</button>
           </div>
         </div>
-
-        <!-- Modal para crear médico -->
         <ng-container *ngIf="activo === 'habilitados'">
           <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -110,14 +107,52 @@
                   <td class="border border-dark">{{ medico.usuario.fechaRegistro }}</td>
                   <td class="border border-dark text-center">
                     <div class="d-inline-flex gap-2 justify-content-center align-items-center">
-                      <button class="btn btn-primary btn-sm btn-icon" title="Editar">
+                      <button class="btn btn-primary btn-sm btn-icon" title="Editar" (click)="abrirModalActualizar(medico)">
+                  <div class="modal fade" id="modalActualizarMedico" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalActualizarMedicoLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header crear-medico">
+                          <h5 class="modal-title" id="modalActualizarMedicoLabel">Actualizar Médico</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="formActualizarMedico.reset()"></button>
+                        </div>
+                        <form [formGroup]="formActualizarMedico" (ngSubmit)="actualizarMedicoSeleccionado()">
+                          <div class="modal-body">
+                            <div class="mb-3">
+                              <label for="nombreActualizar" class="form-label">Nombre</label>
+                              <input type="text" class="form-control" id="nombreActualizar" formControlName="nombre" required pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ ]+" oninput="this.value = this.value.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñ ]/g, '')">
+                            </div>
+                            <div class="mb-3">
+                              <label for="apellidosActualizar" class="form-label">Apellidos</label>
+                              <input type="text" class="form-control" id="apellidosActualizar" formControlName="apellidos" required pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ ]+" oninput="this.value = this.value.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñ ]/g, '')">
+                            </div>
+                            <div class="mb-3">
+                              <label for="correoActualizar" class="form-label">Correo</label>
+                              <input type="email" class="form-control" id="correoActualizar" formControlName="correo" required>
+                            </div>
+                            <div class="mb-3">
+                              <label for="telefonoActualizar" class="form-label">Teléfono</label>
+                              <input type="text" class="form-control" id="telefonoActualizar" formControlName="telefono" required maxlength="9" pattern="\d{9}" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                            </div>
+                            <div class="mb-3">
+                              <label for="especialidadActualizar" class="form-label">Especialidad</label>
+                              <input type="text" class="form-control" id="especialidadActualizar" formControlName="especialidad" required>
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="formActualizarMedico.reset()">Cancelar</button>
+                            <button type="submit" class="btn btn-success" [disabled]="!formActualizarMedico.valid">Actualizar</button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                           <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                           <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
                         </svg>
                       </button>
                       <button class="btn btn-danger btn-sm btn-icon" title="Deshabilitar" (click)="abrirModalDeshabilitar(medico.id_medico)">
-                      <div class="modal fade" id="modalConfirmarDeshabilitar" tabindex="-1" aria-labelledby="modalConfirmarDeshabilitarLabel" aria-hidden="true">
+                      <div class="modal fade" id="modalConfirmarDeshabilitar" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalConfirmarDeshabilitarLabel" aria-hidden="true">
                         <div class="modal-dialog">
                           <div class="modal-content">
                             <div class="modal-header confirmar-habilitar">
@@ -183,7 +218,7 @@
                         <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
                       </svg>
                     </button>
-                    <div class="modal fade" id="modalConfirmarHabilitar" tabindex="-1" aria-labelledby="modalConfirmarHabilitarLabel" aria-hidden="true">
+                    <div class="modal fade" id="modalConfirmarHabilitar" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalConfirmarHabilitarLabel" aria-hidden="true">
                       <div class="modal-dialog">
                         <div class="modal-content">
                           <div class="modal-header confirmar-habilitar">

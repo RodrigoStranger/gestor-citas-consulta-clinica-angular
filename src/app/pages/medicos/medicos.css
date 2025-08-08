@@ -1,3 +1,8 @@
+/* Etiquetas del modal de actualizar médico alineadas a la izquierda */
+#modalActualizarMedico .form-label {
+  text-align: left !important;
+  display: block;
+}
 /* Modal de confirmación habilitar */
 .modal-header.confirmar-habilitar {
   background-color: #0824a4;
