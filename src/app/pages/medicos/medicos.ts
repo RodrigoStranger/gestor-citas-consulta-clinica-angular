@@ -5,6 +5,8 @@ import { CommonModule } from '@angular/common';
 import { Nabvar } from '../../components/nabvar/nabvar';
 import { Search } from '../../components/search/search';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import Swal from 'sweetalert2';
+import ModelError from '../../models/error/error.model';
 
 @Component({
   selector: 'app-medicos',
@@ -28,6 +30,7 @@ export class MedicosComponent implements OnInit {
     this.formMedico = this.fb.group({
       dni: ['', Validators.required],
       correo: ['', [Validators.required, Validators.email]],
+      clave: ['', Validators.required],
       telefono: ['', Validators.required],
       nombre: ['', Validators.required],
       apellidos: ['', Validators.required],
@@ -37,8 +40,45 @@ export class MedicosComponent implements OnInit {
   }
 
   guardarMedico() {
-    if (!this.formMedico.valid) return;
-    console.log('Datos del médico:', this.formMedico.value);
+    if (!this.formMedico.valid) return false;
+    const medicoData = { ...this.formMedico.value };
+    if (medicoData.fechaNacimiento) {
+      const fecha = new Date(medicoData.fechaNacimiento);
+      const yyyy = fecha.getFullYear();
+      const mm = String(fecha.getMonth() + 1).padStart(2, '0');
+      const dd = String(fecha.getDate()).padStart(2, '0');
+      medicoData.fechaNacimiento = `${yyyy}-${mm}-${dd}`;
+    }
+    this.medicoService.crearMedico(medicoData).subscribe({
+      next: (response) => {
+        const modal = document.getElementById('staticBackdrop');
+        if (modal) {
+          (window as any).bootstrap?.Modal.getOrCreateInstance(modal)?.hide();
+        }
+        Swal.fire({
+          title: 'Éxito',
+          text: response?.message || 'Medico registrado correctamente (default)',
+          icon: 'success',
+          confirmButtonText: 'Aceptar'
+        });
+        this.obtenerMedicos();
+        this.formMedico.reset();
+      },
+      error: (e: any) => {
+        const errorResponse = e.error;
+        let text = errorResponse.message;
+        if (Array.isArray(errorResponse.errors) && errorResponse.errors.length > 0) {
+          text += '\n';
+          text += errorResponse.errors.map((err: any) => `• ${err.message}`).join('\n');
+        }
+        Swal.fire({
+          icon: 'warning',
+          title: errorResponse.errorCode ? `${errorResponse.errorCode}` : 'Error',
+          text,
+        });
+      }
+    });
+    return true;
   }
 
   ngOnInit(): void {
