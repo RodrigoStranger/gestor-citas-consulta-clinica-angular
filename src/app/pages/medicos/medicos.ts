@@ -17,6 +17,7 @@ import { formatFechaNacimiento } from '../../utils/formatFechaNacimiento';
 })
 export class MedicosComponent implements OnInit {
   showClave = false;
+  idMedicoParaHabilitar: number | null = null;
 
   medicos: Medico[] = [];
   medicosFiltrados: Medico[] = [];
@@ -92,6 +93,47 @@ export class MedicosComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error al obtener los médicos:', error);
+      }
+    });
+  }
+
+  abrirModalConfirmacion(id_medico: number) {
+    this.idMedicoParaHabilitar = id_medico;
+    const modal = document.getElementById('modalConfirmarHabilitar');
+    if (modal) {
+      (window as any).bootstrap?.Modal.getOrCreateInstance(modal)?.show();
+    }
+  }
+
+  confirmarHabilitarMedico() {
+    if (this.idMedicoParaHabilitar == null) return;
+    this.medicoService.cambiarEstadoMedico(this.idMedicoParaHabilitar, 1).subscribe({
+      next: (response) => {
+        const modal = document.getElementById('modalConfirmarHabilitar');
+        if (modal) {
+          (window as any).bootstrap?.Modal.getOrCreateInstance(modal)?.hide();
+        }
+        Swal.fire({
+          title: 'Éxito',
+          text: response?.message || 'Médico habilitado correctamente',
+          icon: 'success',
+          confirmButtonText: 'Aceptar'
+        });
+        this.obtenerMedicos();
+        this.idMedicoParaHabilitar = null;
+      },
+      error: (e: any) => {
+        const errorResponse = e.error as ModelError;
+        let text = errorResponse.message;
+        if (Array.isArray(errorResponse.errors) && errorResponse.errors.length > 0) {
+          text += '\n';
+          text += errorResponse.errors.map((err: FieldError) => `• ${err.message}`).join('\n');
+        }
+        Swal.fire({
+          icon: 'warning',
+          title: errorResponse.errorCode ? `${errorResponse.errorCode}` : 'Error',
+          text,
+        });
       }
     });
   }

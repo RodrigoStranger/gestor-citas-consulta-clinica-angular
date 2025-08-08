@@ -1,3 +1,14 @@
+/* Modal de confirmación habilitar */
+.modal-header.confirmar-habilitar {
+  background-color: #0824a4;
+}
+.modal-header.confirmar-habilitar .btn-close {
+  filter: invert(1);
+}
+.modal-header.confirmar-habilitar .modal-title {
+  color: white;
+  font-weight: bold;
+}
 .modal-header.crear-medico .btn-close {
   filter: invert(1);
 }
