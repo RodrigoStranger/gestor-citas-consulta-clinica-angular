@@ -17,8 +17,8 @@ export class Medico {
     return this.http.post(this.url, medico);
   }
 
-  obtenerMedicos(estado: "habilitado" | "deshabilitado"): Observable<any>{
-    return this.http.get(`${this.url}/${estado}`);
+  obtenerMedicos(activo: "habilitado" | "deshabilitado"): Observable<any>{
+    return this.http.get(`${this.url}/${activo}`);
   }
 
   obtenerEspecialidades(): Observable<any> {

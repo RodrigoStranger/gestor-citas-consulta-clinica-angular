@@ -1,0 +1,28 @@
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>ID Médico</th>
+      <th>DNI</th>
+      <th>Correo</th>
+      <th>Teléfono</th>
+      <th>Nombre</th>
+      <th>Apellidos</th>
+      <th>Fecha Nacimiento</th>
+      <th>Rol</th>
+      <th>Fecha Registro</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let medico of medicos">
+      <td>{{ medico.id_medico }}</td>
+      <td>{{ medico.usuario.dni }}</td>
+      <td>{{ medico.usuario.correo }}</td>
+      <td>{{ medico.usuario.telefono }}</td>
+      <td>{{ medico.usuario.nombre }}</td>
+      <td>{{ medico.usuario.apellidos }}</td>
+      <td>{{ medico.usuario.fechaNacimiento }}</td>
+      <td>{{ medico.usuario.rolPorDefecto }}</td>
+      <td>{{ medico.usuario.fechaRegistro }}</td>
+    </tr>
+  </tbody>
+</table>

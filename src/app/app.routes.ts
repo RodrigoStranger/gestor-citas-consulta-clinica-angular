@@ -1,3 +1,10 @@
-import { Routes } from '@angular/router';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { MedicosComponent} from './pages/medicos/medicos';
 
-export const routes: Routes = [];
+export const routes: Routes = [
+  {
+    path: 'medicos',
+    component: MedicosComponent
+  }
+];
