@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
 })
 export class MedicosComponent implements OnInit {
   medicos: Medico[] = [];
-  activo: "habilitado" | "deshabilitado" = "habilitado";
+  activo: "habilitados" | "deshabilitados" = "habilitados";
 
   constructor(private medicoService: MedicoService) { }
 
