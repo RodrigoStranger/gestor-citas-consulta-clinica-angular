@@ -4,7 +4,7 @@
   <div class="col-sm-8 mt-5">
     <div class="row mb-2">
           <div class="col-12 d-flex justify-content-end">
-            <app-search [placeholder]="'Busca un médico'"></app-search>
+            <app-search [placeholder]="'Busca un médico'" (buscar)="filtrarMedicos($event)"></app-search>
           </div>
     </div>
     <div class="card">
@@ -25,7 +25,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let medico of medicos">
+            <tr *ngFor="let medico of medicosFiltrados">
               <td class="border border-dark">{{ medico.id_medico }}</td>
               <td class="border border-dark">{{ medico.usuario.dni }}</td>
               <td class="border border-dark">{{ medico.usuario.correo }}</td>

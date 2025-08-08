@@ -13,6 +13,7 @@ import { Search } from '../../components/search/search';
 })
 export class MedicosComponent implements OnInit {
   medicos: Medico[] = [];
+  medicosFiltrados: Medico[] = [];
   activo: "habilitados" | "deshabilitados" = "habilitados";
 
   constructor(private medicoService: MedicoService) { }
@@ -25,10 +26,21 @@ export class MedicosComponent implements OnInit {
     this.medicoService.obtenerMedicos(this.activo).subscribe({
       next: (response) => {
         this.medicos = response.data;
+        this.medicosFiltrados = response.data;
       },
       error: (error) => {
         console.error('Error al obtener los médicos:', error);
       }
     });
+  }
+
+  filtrarMedicos(texto: string): void {
+    if (!texto.trim()) {
+      this.medicosFiltrados = this.medicos;
+    } else {
+      this.medicosFiltrados = this.medicos.filter(medico =>
+        medico.usuario.nombre.toLowerCase().includes(texto.toLowerCase())
+      );
+    }
   }
 }
